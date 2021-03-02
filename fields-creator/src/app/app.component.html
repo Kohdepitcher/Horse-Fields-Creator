@@ -48,12 +48,32 @@
     </mat-select>
   </mat-form-field>
 
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openRaceDialog(false)">
+      <mat-icon>add</mat-icon>
+      <span>Create Race</span>
+    </button>
+    <button mat-menu-item (click)="openRaceDialog(true)">
+      <mat-icon>edit</mat-icon>
+      <span>Edit Race</span>
+    </button>
+    <button mat-menu-item (click)="deleteRace()">
+      <mat-icon>delete</mat-icon>
+      <span>Delete Race</span>
+    </button>
+  </mat-menu>
+
 
   <button class="header-fab" mat-fab color="accent" aria-label="Example icon button with a bookmark icon">
     <mat-icon>add</mat-icon>
   </button>
 
 </div>
+
+
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
 
