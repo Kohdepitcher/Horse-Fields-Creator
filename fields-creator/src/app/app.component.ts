@@ -8,6 +8,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 
+//dialogs
+import { RaceDialogComponent } from "./race-dialog/race-dialog.component";
+import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,7 +30,7 @@ export class AppComponent {
 
   selectedRace: number = 0
 
-  constructor(private raceModel: FieldsService) {}
+  constructor(private raceModel: FieldsService, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.raceModel.subscribe(this.races);
@@ -40,6 +44,9 @@ export class AppComponent {
 
     console.log(event.value);
 
+    //set the select race to the race number from select value
+    this.selectedRace = event.value
+
     //get the race from the model
     const race = this.raceModel.getRace(event.value)
 
@@ -49,6 +56,39 @@ export class AppComponent {
     this.dataSource = new MatTableDataSource(race.entries)
     
 
+  }
+
+  
+
+  openRaceDialog(shouldEdit: boolean): void {
+
+    const fetchedRace: Race = this.raceModel.getRace(this.selectedRace)
+     
+    const dialogRef = this.dialog.open(RaceDialogComponent, {
+      width: '400px',
+      data: fetchedRace != undefined  ? { race: {...fetchedRace} , isNew: false} : { race: {}, isNew: true}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+        if (result.isNew) {
+
+          this.raceModel.addRace(result.race.date, result.race.name)
+
+        }
+
+        else if (result.isNew == false) {
+
+          this.raceModel.updateRace(result.race.date, this.selectedRace, result.race.name)
+
+        }
+
+    })
+
+  }
+
+  deleteRace() {
+    this.raceModel.deleteRace(this.selectedRace)
   }
 }
 
