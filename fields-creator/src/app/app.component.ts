@@ -11,6 +11,7 @@ import { MatTableDataSource, MatTable } from '@angular/material/table';
 //dialogs
 import { RaceDialogComponent } from "./race-dialog/race-dialog.component";
 import { MatDialog } from '@angular/material/dialog';
+import { RaceEntryDialogComponent } from './race-entry-dialog/race-entry-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ export class AppComponent {
 
   races = new BehaviorSubject<Race[]>([]);
 
-  displayedColumns = ["number", "barrier", "name", "jockey", "weight"];
+  displayedColumns = ["number", "barrier", "name", "jockey", "weight", "action"];
 
   //table datasource
   dataSource: MatTableDataSource<RaceEntry> | any
@@ -41,8 +42,6 @@ export class AppComponent {
 
   //called when the race selector selects a race
   loadRaceEntries(event: MatSelectChange) {
-
-    console.log(event.value);
 
     //set the select race to the race number from select value
     this.selectedRace = event.value
@@ -62,7 +61,15 @@ export class AppComponent {
 
   openRaceDialog(shouldEdit: boolean): void {
 
-    const fetchedRace: Race = this.raceModel.getRace(this.selectedRace)
+    var fetchedRace!: any
+
+    if(shouldEdit) {
+      fetchedRace = this.raceModel.getRace(this.selectedRace)
+    } else {
+      fetchedRace = undefined
+    }
+
+    
      
     const dialogRef = this.dialog.open(RaceDialogComponent, {
       width: '400px',
@@ -87,9 +94,56 @@ export class AppComponent {
 
   }
 
+  openRacEntryeDialog(entryNumber: number) {
+
+    var raceEntry!: any
+
+    if(entryNumber == 0) {
+      raceEntry = undefined
+    } else {
+      raceEntry = this.raceModel.getRaceEntriesForRace(this.selectedRace, entryNumber)
+    }
+
+    console.log(raceEntry);
+    
+
+    const dialogRef = this.dialog.open(RaceEntryDialogComponent, {
+      width: '400px',
+      data: raceEntry != undefined ? { raceEntry: {...raceEntry}, isNew: false} : { raceEntry: {}, isNew: true}
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+
+        if (result.isNew) {
+          this.raceModel.addRaceEntry(this.selectedRace, result.raceEntry.horseNumber, result.raceEntry.barrierNumber, result.raceEntry.horseName, result.raceEntry.jockeyName, result.raceEntry.weight)
+        }
+
+        else if (result.isNew == false) {
+          this.raceModel.updateRaceEntry(this.selectedRace, result.raceEntry.horseNumber, result.raceEntry.barrierNumber, result.raceEntry.horseName, result.raceEntry.jockeyName, result.raceEntry.weight)
+        }
+
+        //refesh the datasource
+        this.dataSource = new MatTableDataSource(this.raceModel.getRace(this.selectedRace).entries)
+
+    })   
+
+  }
+
   deleteRace() {
     this.raceModel.deleteRace(this.selectedRace)
+
+    //refesh the datasource
+    this.dataSource = new MatTableDataSource(this.raceModel.getRace(this.selectedRace).entries)
+  }
+
+  deleteRaceEntry(entryNumber: number) {
+    this.raceModel.deleteRaceEntry(this.selectedRace, entryNumber)
+
+    //refesh the datasource
+    this.dataSource = new MatTableDataSource(this.raceModel.getRace(this.selectedRace).entries)
   }
 }
+
+
 
 
