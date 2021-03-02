@@ -13,18 +13,83 @@ import {
 @Component({
   selector: 'app-race-entry-dialog',
   template: `
-    <p>
-      race-entry-dialog works!
-    </p>
+    <h1 mat-dialog-title>{{ data.isNew? 'New Race Entry' : 'Edit Race Entry'}}</h1>
+
+<form [formGroup]="raceEntryForm">
+
+<div mat-dialog-content>
+
+<mat-form-field appearance="fill">
+  <mat-label>Horse No.</mat-label>
+    <input matInput formControlName='number' type="text" [(ngModel)]="data.raceEntry.horseNumber">
+    <mat-error *ngIf="hasError('number', 'required')">Horse number is required</mat-error>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Barrier No.</mat-label>
+    <input matInput formControlName='barrier' type="text" [(ngModel)]="data.raceEntry.barrierNumber">
+    <mat-error *ngIf="hasError('barrier', 'required')">Barrier number is required</mat-error>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Horse Name</mat-label>
+    <input matInput formControlName='name' type="text" [(ngModel)]="data.raceEntry.horseName">
+    <mat-error *ngIf="hasError('name', 'required')">Name is required</mat-error>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Jockey</mat-label>
+    <input matInput formControlName='jockey' type="text" [(ngModel)]="data.raceEntry.jockeyName">
+    <mat-error *ngIf="hasError('jockey', 'required')">Jockey is required</mat-error>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Weight (Kg)</mat-label>
+    <input matInput formControlName='weight' type="text" [(ngModel)]="data.raceEntry.weight">
+    <mat-error *ngIf="hasError('weight', 'required')">Weight is required</mat-error>
+</mat-form-field>
+
+
+</div>
+
+<div mat-dialog-actions>
+<button mat-button (click)="onNoClick()">Cancel</button>
+<button mat-button  [mat-dialog-close]="data" cdkFocusInitial color="primary">
+{{ data.isNew? 'Create' : 'Update'}}
+</button>
+
+</div>
+</form>
   `,
   styles: [
   ]
 })
 export class RaceEntryDialogComponent implements OnInit {
 
-  constructor() { }
+  raceEntryForm!: FormGroup;
+
+  constructor(public dialogRef: MatDialogRef<RaceEntryDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+
+    this.raceEntryForm = this.fb.group({
+      
+      number: [this.data.raceEntry.horseNumber, Validators.required],
+      barrier: [this.data.raceEntry.barrierNumber, Validators.required],
+      name: [this.data.raceEntry.horseName, Validators.required],
+      jockey: [this.data.raceEntry.jockeyName, Validators.required],
+      weight: [this.data.raceEntry.weight, Validators.required]
+
+  })
+
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  public hasError = (controlName: string, errorName: string) =>{
+    return this.raceEntryForm.controls[controlName].hasError(errorName);
   }
 
 }
