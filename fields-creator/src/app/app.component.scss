@@ -1,0 +1,70 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$primary: mat-palette($mat-deep-purple, 600, 500, 900);
+$accent: mat-palette($mat-amber, A400, A300, A600);
+
+.header {
+    background-color: mat-color($primary);
+    color: white;
+
+    .header-fab {
+        position: relative;
+        top: calc(56px/2);
+        left: calc(100vw - 100px);
+    }
+
+    ::ng-deep .mat-form-field .mat-input-element {
+        color: white;
+    }
+    ::ng-deep .mat-form-field .mat-form-field-label {
+        color: white!important;
+    }
+    ::ng-deep .mat-form-field .mat-form-field-underline {
+        background-color: white;
+    }
+    ::ng-deep .mat-form-field .mat-form-field-ripple {
+        background-color: white;
+    }
+    ::ng-deep .mat-form-field .mat-form-field-required-marker {
+        color: white;
+    }
+    ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+        color: white;
+    }
+
+    ::ng-deep .mat-form-field .mat-select-value {
+        color: white;
+    }
+
+    ::ng-deep .mat-form-field .mat-select-arrow {
+        color: white;
+    }
+    
+    
+    ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+        color: mat-color($accent)!important;
+    }
+    ::ng-deep .mat-form-field.mat-focused .mat-form-field-ripple {
+        background-color: mat-color($accent);
+    }
+    ::ng-deep .mat-form-field.mat-focused .mat-form-field-required-marker {
+        color: mat-color($accent);
+    }
+    ::ng-deep .mat-form-field.mat-focused .mat-input-element {
+        color: mat-color($accent);
+    }
+    ::ng-deep .mat-form-field.mat-focused .mat-form-field-outline {
+        color: mat-color($accent);
+    }
+
+    ::ng-deep .mat-form-field.mat-focused .mat-select-value {
+        color: mat-color($accent);
+    }
+
+    ::ng-deep .mat-form-field.mat-focused .mat-select-arrow {
+        color: mat-color($accent);
+    }
+
+    
+}
