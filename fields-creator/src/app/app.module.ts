@@ -20,11 +20,13 @@ import { MatDialogModule } from "@angular/material/dialog";
 import {MatInputModule} from '@angular/material/input';
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from '@angular/material/core';
+import { RaceEntryDialogComponent } from './race-entry-dialog/race-entry-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RaceDialogComponent
+    RaceDialogComponent,
+    RaceEntryDialogComponent
   ],
   imports: [
     BrowserModule,
