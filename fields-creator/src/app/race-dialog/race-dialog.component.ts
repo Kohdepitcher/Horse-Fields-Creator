@@ -55,8 +55,6 @@ export class RaceDialogComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(this.data)
-
     this.raceForm = this.fb.group({
       
         name: [this.data.race.name, Validators.required],
