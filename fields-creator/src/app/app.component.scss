@@ -8,11 +8,11 @@ $accent: mat-palette($mat-amber, A400, A300, A600);
     background-color: mat-color($primary);
     color: white;
 
-    .header-fab {
-        position: relative;
-        top: calc(56px/2);
-        left: calc(100vw - 100px);
-    }
+    // .header-fab {
+    //     position: relative;
+    //     top: calc(56px/2);
+    //     left: calc(100vw - 100px);
+    // }
 
     ::ng-deep .mat-form-field .mat-input-element {
         color: white;
