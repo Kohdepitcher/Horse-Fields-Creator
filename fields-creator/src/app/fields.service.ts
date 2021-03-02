@@ -112,13 +112,16 @@ export class FieldsService {
 
    }
 
-  //  getRaceEntries(raceNumber: number): Race {
+   getRaceEntriesForRace(raceNumber: number, raceEntryNumber: number): RaceEntry {
      
-  //   //index of the matching race number
-  //   const index = this.races.findIndex( x => x.number === raceNumber);
+    //index of the matching race number
+    const index = this.races.findIndex( x => x.number === raceNumber);
+    const race = this.races[index]
+
+    const entryIndex = race.entries.findIndex( x => x.horseNumber === raceEntryNumber)
     
-  //   return this.races[index].entries
-  //  }
+    return this.races[index].entries[entryIndex]
+   }
 
    updateRaceEntry(raceNumber: number, horseNumber: number, barrierNumber: number, horseName: string, jockeyName: string, weight: number) {
 
