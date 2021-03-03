@@ -19,5 +19,4 @@ Example of correct format:
 
 
 ## Demo
-```
-![Screen Shot 2021-03-03 at 4 40 38 pm](https://user-images.githubusercontent.com/15321325/109764918-dd267100-7c3f-11eb-836e-37641aaf5362.png)
+![Example race with entries](https://user-images.githubusercontent.com/15321325/109764918-dd267100-7c3f-11eb-836e-37641aaf5362.png)
