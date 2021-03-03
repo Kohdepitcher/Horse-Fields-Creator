@@ -21,15 +21,16 @@ import {
 
 <mat-form-field appearance="fill">
   <mat-label>Horse No.</mat-label>
-    <input matInput formControlName='number' type="text" [(ngModel)]="data.raceEntry.horseNumber" pattern="[0-9]">
+    <input matInput formControlName='number' type="text" [(ngModel)]="data.raceEntry.horseNumber" pattern="^[0-9]*$">
     <mat-error *ngIf="hasError('number', 'required')">Horse number is required</mat-error>
     <mat-error *ngIf="hasError('number', 'pattern')">Horse number is not a valid number</mat-error>
 </mat-form-field>
 
 <mat-form-field appearance="fill">
   <mat-label>Barrier No.</mat-label>
-    <input matInput formControlName='barrier' type="text" [(ngModel)]="data.raceEntry.barrierNumber" pattern="[0-9]"ß>
+    <input matInput formControlName='barrier' type="text" [(ngModel)]="data.raceEntry.barrierNumber" pattern="^[0-9]*$"ß>
     <mat-error *ngIf="hasError('barrier', 'required')">Barrier number is required</mat-error>
+    <mat-error *ngIf="hasError('barrier', 'pattern')">Barrier number is not a valid number</mat-error>
 </mat-form-field>
 
 <mat-form-field appearance="fill">
@@ -46,8 +47,9 @@ import {
 
 <mat-form-field appearance="fill">
   <mat-label>Weight (Kg)</mat-label>
-    <input matInput formControlName='weight' type="text" [(ngModel)]="data.raceEntry.weight" pattern="[0-9]">
+    <input matInput formControlName='weight' type="text" [(ngModel)]="data.raceEntry.weight">
     <mat-error *ngIf="hasError('weight', 'required')">Weight is required</mat-error>
+    <mat-error *ngIf="hasError('weight', 'pattern')">Weight number is not a valid number</mat-error>
 </mat-form-field>
 
 
@@ -76,11 +78,11 @@ export class RaceEntryDialogComponent implements OnInit {
 
     this.raceEntryForm = this.fb.group({
       
-      number: [this.data.raceEntry.horseNumber, Validators.required, Validators.pattern("^[0-9]*$")],
-      barrier: [this.data.raceEntry.barrierNumber, Validators.required, Validators.pattern("^[0-9]*$")],
+      number: [this.data.raceEntry.horseNumber, Validators.required],
+      barrier: [this.data.raceEntry.barrierNumber, Validators.required],
       name: [this.data.raceEntry.horseName, Validators.required],
       jockey: [this.data.raceEntry.jockeyName, Validators.required],
-      weight: [this.data.raceEntry.weight, Validators.required, Validators.pattern("^[0-9]*$")]
+      weight: [this.data.raceEntry.weight, Validators.required]
 
   })
 
