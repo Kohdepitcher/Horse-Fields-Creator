@@ -164,4 +164,40 @@ export class FieldsService {
      ));
      
    }
+
+  exportToFileFormat(): string {
+
+    var holdString = ""
+
+    for (let race of this.races) {
+
+      //get date parts of the race date
+      const year = new Date(race.date).getFullYear();
+      const month = new Date(race.date).getMonth() + 1;
+      const day = new Date(race.date).getDate();
+
+      const raceNumber = race.number > 9 ? race.number : "0" + race.number
+      const raceDay = day > 9 ? day : "0" + day
+      const raceMonth = month > 9 ? month : "0" + month
+      const raceName = race.name
+
+      console.log(month)
+
+      holdString += year + ", " + raceDay + "" + raceMonth + ", " + raceNumber + " " + raceName + "\n"
+
+        for (let entry of race.entries) {
+
+          holdString += " " + entry.horseNumber + "," + entry.barrierNumber + "," + "          " + entry.horseName + ",," + entry.horseName + " " + entry.weight + "kg" + "\n"
+
+        }
+
+        holdString += " " + ",,," + "          " + "LAST 600 METERS" + ",," + "\n"
+        holdString += " " + ",,," + "          " + "LAST 400 METERS" + ",," + "\n"
+        holdString += " " + ",,," + "          " + "LAST 200 METERS" + ",," + "\n"
+
+    }
+
+    return holdString
+
+  }
 }
