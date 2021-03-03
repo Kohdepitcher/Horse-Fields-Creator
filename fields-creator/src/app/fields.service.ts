@@ -187,7 +187,7 @@ export class FieldsService {
 
         for (let entry of race.entries) {
 
-          holdString += " " + entry.horseNumber + "," + entry.barrierNumber + "," + "          " + entry.horseName + ",," + entry.horseName + " " + entry.weight + "kg" + "\n"
+          holdString += " " + entry.horseNumber + "," + entry.barrierNumber + "," + "          " + entry.horseName + ",," + entry.jockeyName + " " + entry.weight + "kg" + "\n"
 
         }
 
