@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 
 @Component({
+  
   selector: 'app-race-dialog',
   template: `
     <h1 mat-dialog-title>{{ data.isNew? 'New Race' : 'Edit Race'}}</h1>
@@ -23,7 +24,7 @@ import {
       <mat-label>Date</mat-label>
         <input matInput [matDatepicker]="picker" formControlName='date' type="date" [(ngModel)]="data.race.date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <mat-datepicker #picker [startAt]="todayDate"></mat-datepicker>
         <mat-error *ngIf="hasError('date', 'required')">Date is required</mat-error>
     </mat-form-field>
 
@@ -37,7 +38,7 @@ import {
 
     <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button  [mat-dialog-close]="data" cdkFocusInitial color="primary">
+  <button mat-button  [mat-dialog-close]="data" cdkFocusInitial [disabled]="!raceForm.valid" color="primary">
   {{ data.isNew? 'Create' : 'Update'}}
   </button>
   
@@ -45,11 +46,14 @@ import {
 </form>
   `,
   styles: [
+    '.mat-form-field { width: 100% }'
   ]
 })
 export class RaceDialogComponent implements OnInit {
 
   raceForm!: FormGroup;
+
+  todayDate = new Date()
 
   constructor(public dialogRef: MatDialogRef<RaceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) { }
 
@@ -61,6 +65,8 @@ export class RaceDialogComponent implements OnInit {
         date: [this.data.race.date, Validators.required]
 
     })
+
+    this.todayDate = new Date()
 
   }
 
