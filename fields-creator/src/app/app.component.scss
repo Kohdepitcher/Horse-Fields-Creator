@@ -14,6 +14,11 @@ $accent: mat-palette($mat-amber, A400, A300, A600);
     //     left: calc(100vw - 100px);
     // }
 
+    .mat-form-field {
+        width: 80%;
+        margin-bottom: 1em;
+    }
+
     ::ng-deep .mat-form-field .mat-input-element {
         color: white;
     }
@@ -67,4 +72,15 @@ $accent: mat-palette($mat-amber, A400, A300, A600);
     }
 
     
+}
+
+.FAB-container {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+
+    button {
+        margin-right: 1.5em;
+        bottom: 10em;
+    }
 }
