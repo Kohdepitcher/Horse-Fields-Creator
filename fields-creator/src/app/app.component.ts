@@ -12,6 +12,7 @@ import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { RaceDialogComponent } from "./race-dialog/race-dialog.component";
 import { MatDialog } from '@angular/material/dialog';
 import { RaceEntryDialogComponent } from './race-entry-dialog/race-entry-dialog.component';
+import { FieldOutputDialogComponent } from './field-output-dialog/field-output-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -35,9 +36,6 @@ export class AppComponent {
 
   ngOnInit() {
     this.raceModel.subscribe(this.races);
-
-    // this.raceModel.addRaceEntry(17,1,1,"test","test", 34)
-
   }
 
   //called when the race selector selects a race
@@ -59,6 +57,7 @@ export class AppComponent {
 
   
 
+  //opens teh race dialog
   openRaceDialog(shouldEdit: boolean): void {
 
     var fetchedRace!: any
@@ -94,6 +93,8 @@ export class AppComponent {
 
   }
 
+
+  //opens the race entry dialog
   openRacEntryeDialog(entryNumber: number) {
 
     var raceEntry!: any
@@ -129,18 +130,39 @@ export class AppComponent {
 
   }
 
+  //deletes a race when called
   deleteRace() {
+
+    //delete the selected race in the modal
     this.raceModel.deleteRace(this.selectedRace)
 
-    //refesh the datasource
+    //reset the selectedRace
+    this.selectedRace = 0
+
+    //set the datasource for the table to undfined to removed the now deleted race entries
+    this.dataSource = undefined
+  }
+
+  //deletes a race entry when called
+  deleteRaceEntry(entryNumber: number) {
+
+    //delete a race entry for a race
+    this.raceModel.deleteRaceEntry(this.selectedRace, entryNumber)
+
+    //refesh the datasource to reload
     this.dataSource = new MatTableDataSource(this.raceModel.getRace(this.selectedRace).entries)
   }
 
-  deleteRaceEntry(entryNumber: number) {
-    this.raceModel.deleteRaceEntry(this.selectedRace, entryNumber)
+  getExport() {
+    const exportedFields = this.raceModel.exportToFileFormat();
 
-    //refesh the datasource
-    this.dataSource = new MatTableDataSource(this.raceModel.getRace(this.selectedRace).entries)
+    console.log(exportedFields)
+
+    const dialogRef = this.dialog.open(FieldOutputDialogComponent, {
+      width: '50%',
+      data: exportedFields
+    })
+     
   }
 }
 
