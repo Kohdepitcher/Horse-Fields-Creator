@@ -20,13 +20,16 @@ import { MatDialogModule } from "@angular/material/dialog";
 import {MatInputModule} from '@angular/material/input';
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE } from "@angular/material/core";
 import { RaceEntryDialogComponent } from './race-entry-dialog/race-entry-dialog.component';
+import { FieldOutputDialogComponent } from './field-output-dialog/field-output-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RaceDialogComponent,
-    RaceEntryDialogComponent
+    RaceEntryDialogComponent,
+    FieldOutputDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,9 @@ import { RaceEntryDialogComponent } from './race-entry-dialog/race-entry-dialog.
     MatDatepickerModule,
     MatNativeDateModule
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
