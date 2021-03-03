@@ -21,13 +21,14 @@ import {
 
 <mat-form-field appearance="fill">
   <mat-label>Horse No.</mat-label>
-    <input matInput formControlName='number' type="text" [(ngModel)]="data.raceEntry.horseNumber">
+    <input matInput formControlName='number' type="text" [(ngModel)]="data.raceEntry.horseNumber" pattern="[0-9]">
     <mat-error *ngIf="hasError('number', 'required')">Horse number is required</mat-error>
+    <mat-error *ngIf="hasError('number', 'pattern')">Horse number is not a valid number</mat-error>
 </mat-form-field>
 
 <mat-form-field appearance="fill">
   <mat-label>Barrier No.</mat-label>
-    <input matInput formControlName='barrier' type="text" [(ngModel)]="data.raceEntry.barrierNumber">
+    <input matInput formControlName='barrier' type="text" [(ngModel)]="data.raceEntry.barrierNumber" pattern="[0-9]"ß>
     <mat-error *ngIf="hasError('barrier', 'required')">Barrier number is required</mat-error>
 </mat-form-field>
 
@@ -45,7 +46,7 @@ import {
 
 <mat-form-field appearance="fill">
   <mat-label>Weight (Kg)</mat-label>
-    <input matInput formControlName='weight' type="text" [(ngModel)]="data.raceEntry.weight">
+    <input matInput formControlName='weight' type="text" [(ngModel)]="data.raceEntry.weight" pattern="[0-9]">
     <mat-error *ngIf="hasError('weight', 'required')">Weight is required</mat-error>
 </mat-form-field>
 
@@ -54,7 +55,7 @@ import {
 
 <div mat-dialog-actions>
 <button mat-button (click)="onNoClick()">Cancel</button>
-<button mat-button  [mat-dialog-close]="data" cdkFocusInitial color="primary">
+<button mat-button  [mat-dialog-close]="data" cdkFocusInitial [disabled]="!raceEntryForm.valid" color="primary">
 {{ data.isNew? 'Create' : 'Update'}}
 </button>
 
@@ -62,6 +63,7 @@ import {
 </form>
   `,
   styles: [
+    '.mat-form-field { width: 100%; margin-bottom: 1em }'
   ]
 })
 export class RaceEntryDialogComponent implements OnInit {
@@ -74,11 +76,11 @@ export class RaceEntryDialogComponent implements OnInit {
 
     this.raceEntryForm = this.fb.group({
       
-      number: [this.data.raceEntry.horseNumber, Validators.required],
-      barrier: [this.data.raceEntry.barrierNumber, Validators.required],
+      number: [this.data.raceEntry.horseNumber, Validators.required, Validators.pattern("^[0-9]*$")],
+      barrier: [this.data.raceEntry.barrierNumber, Validators.required, Validators.pattern("^[0-9]*$")],
       name: [this.data.raceEntry.horseName, Validators.required],
       jockey: [this.data.raceEntry.jockeyName, Validators.required],
-      weight: [this.data.raceEntry.weight, Validators.required]
+      weight: [this.data.raceEntry.weight, Validators.required, Validators.pattern("^[0-9]*$")]
 
   })
 
@@ -92,4 +94,17 @@ export class RaceEntryDialogComponent implements OnInit {
     return this.raceEntryForm.controls[controlName].hasError(errorName);
   }
 
+}
+
+export class CustomValidator{
+  // Number only validation
+  static numeric(control: AbstractControl) {
+    let val = control.value;
+    
+    if (val === null || val === '') return null;
+    
+    if (!val.toString().match(/^[0-9]+(\.?[0-9]+)?$/)) return { 'invalidNumber': true };
+    
+    return null;
+  }
 }
